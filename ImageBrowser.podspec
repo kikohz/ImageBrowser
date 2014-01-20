@@ -1,9 +1,7 @@
 Pod::Spec.new do |s|
   s.name         =  'ImageBrowser'
   s.version      =  '0.1'
-  s.license      =  { :type => 'MIT',
-                      :text => <<-LICENSE
-                    }
+  s.license      =  { :type => 'MIT', :file => 'LICENSE' }
   s.summary      =  'A simple picture viewer.'
   s.homepage     =  'https://github.com/kikohz/ImageBrowser'
   s.author       =  { 'H_z' => 'kikohz@gmail.com' }
