@@ -8,8 +8,8 @@
 
 #import "HZZoomingScrollView.h"
 #import "HZImage.h"
-#import "UIImageView+WebCache.h"
-#import "SDImageCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDImageCache.h>
 
 @interface HZZoomingScrollView()
 
@@ -17,8 +17,6 @@
 @property (nonatomic,strong) MWTapDetectingImageView *photoImageView;
 @property (nonatomic,strong) UIActivityIndicatorView *spinner;
 @property (nonatomic,weak) ImageBrowserController *imageBrowser;
-
-@property (nonatomic,assign) QCImageViewEffect QCImageType;
 
 @end
 
@@ -74,33 +72,6 @@
     return self;
 }
 
-
-
-
-//更具固定的宽度做等比缩放  这里的photoview是tableview
-- (CGSize)imageZoomSize:(CGSize)imagesize
-{
-    if(imagesize.width == 0.0 || imagesize.height == 0.0)
-        return CGSizeZero;
-    CGSize temp;
-    //高度优先做等比缩放
-    //CGRect ddd2 = self.photoView.frame;
-    float offsize = self.photoImageView.frame.size.height/imagesize.height;
-    temp = CGSizeMake(imagesize.width*offsize, imagesize.height*offsize);
-    
-    self.QCImageType = QCImageViewEffectOriginal;
-    if (temp.width>800)//320-5=315
-    {
-        temp.width=315;
-        self.QCImageType = QCImageViewEffectDefaultCutTop;//QCImageViewEffectDefaultCutTop
-    }else if(temp.width<122)//(320-15)/2.5=122
-    {
-        temp.width=122;
-        self.QCImageType = QCImageViewEffectDefaultCutTop;
-    }
-    
-    return temp;
-}
 #pragma mark - Image
 
 // Get and display image
@@ -119,10 +90,7 @@
 			
 			// Hide spinner
 			[_spinner stopAnimating];
-			
-			// Set image
-            
-//            [[SDImageCache sharedImageCache] storeImage:img forKey:self.hzImage.url toDisk:YES];
+
             //大图特殊处理
             CGSize tempsize = img.size;
             if(img.size.width > 1200 || img.size.height >2000)
@@ -138,18 +106,14 @@
             
             
 			_photoImageView.image = img;
-//			_photoImageView.hidden = NO;
-            
-//            CGSize tempSize = [self imageZoomSize:img.size];
-			
+
 			// Setup photo frame
 			CGRect photoImageViewFrame;
 			photoImageViewFrame.origin = CGPointZero;
 			photoImageViewFrame.size = img.size;
 //            photoImageViewFrame.size = tempSize;
 			_photoImageView.frame = photoImageViewFrame;
-            
-//            [_photoImageView setImageWithURL:[NSURL URLWithString:self.hzImage.url] placeholderImage:nil effect:_QCImageType];
+
             
 			self.contentSize = photoImageViewFrame.size;
             
@@ -162,12 +126,9 @@
 //			_photoImageView.hidden = YES;
 			[_spinner startAnimating];
             __weak typeof (&*self)weakself = self;
-            [_photoImageView setImageWithURL:[NSURL URLWithString:self.hzImage.url] placeholderImage:nil effect:_QCImageType success:^(UIImage *image) {
-                
-                [weakself.spinner stopAnimating];
-            } failure:^(NSError *error) {
-                [weakself.spinner stopAnimating];
-            }];
+      [_photoImageView setImageWithURL:[NSURL URLWithString:self.hzImage.url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [weakself.spinner stopAnimating];
+      }];
 			
 		}
 		[self setNeedsLayout];

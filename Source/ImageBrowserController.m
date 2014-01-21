@@ -8,8 +8,6 @@
 
 #import "ImageBrowserController.h"
 #import "HZZoomingScrollView.h"
-#import "TipStatusBar.h"
-#import "Toast+UIView.h"
 #import "HZScrollView.h"
 
 #define NSLocalizedString(key, comment) \

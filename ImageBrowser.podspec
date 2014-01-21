@@ -1,12 +1,28 @@
 Pod::Spec.new do |s|
-  s.name         =  'ImageBrowser'
-  s.version      =  'v0.2'
-  s.license      =  { :type => 'MIT', :file => 'LICENSE' }
-  s.summary      =  'A simple picture viewer.'
-  s.homepage     =  'https://github.com/kikohz/ImageBrowser'
-  s.author       =  { 'H_z' => 'kikohz@gmail.com' }
-  s.source       =  { :git => 'https://github.com/kikohz/ImageBrowser.git', :tag => 'v0.2' }
-  s.platform     =  :ios
-  s.source_files =  'Source'
-  s.requires_arc =  true
+
+  s.name         = "ImageBrowser"
+  s.version      = "0.2"
+  s.summary      = "A simple picture viewer."
+
+  s.license      = { :type => 'MIT', :file => 'FILE_LICENSE' }
+
+  s.author             = { "kikohz" => "kikohz@gmail.com" }
+
+  s.platform     = :ios, '5.0'
+
+  #  When using multiple platforms
+  # s.ios.deployment_target = '5.0'
+  # s.osx.deployment_target = '10.7'
+
+  s.source       = { :git => "https://github.com/kikohz/ImageBrowser.git", :tag => "v0.2" }
+  s.source_files  = 'Source', 'Source/**/*.{h,m}'
+
+  s.resources = "Source/Resources/*.png"
+
+  # s.frameworks = 'SomeFramework', 'AnotherFramework'
+
+  s.requires_arc = true
+
+  s.dependency 'SDWebImage',  '~> 3.5.1'
+
 end
